@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="inc/loading.css" />
+    <title>Products with Pagination</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+      const url = "https://dummyjson.com/products?limit=100";
+      const opt = {
+        // config for fetch
+        mode: "cors", // cross domain request is allowed
+      };
+
+      let currentPage = 1;
+      const itemsPerPage = 10;
+      let skip = 0;
+
+      $(() => {
+        fetchText1();
+      });
+
+      const fetchText1 = async () => {
+        try {
+          const pageUrl = `${url}&skip=${skip}`;
+          let response = await fetch(pageUrl, opt);
+          let data = await response.json();
+          createTable(data);
+          console.log(data);
+        } catch (e) {
+          console.error(e);
+        }
+      };
+
+      const createTableHeader = () => {
+        const tr = $("<tr>");
+        const headers = ["ID", "Title", "Price", "Brand"];
+        headers.forEach((header) => {
+          const th = $("<th/>")
+            .addClass("bg-gray-100 px-4 py-2 text-left")
+            .text(header);
+          tr.append(th);
+        });
+        return tr;
+      };
+
+      const createRow = (dataRow, rowIndex) => {
+        const tr = $("<tr/>");
+        tr.addClass("border-b hover:bg-gray-100");
+        const id = (currentPage - 1) * itemsPerPage + rowIndex + 1;
+        tr.append($("<td/>").addClass("px-4 py-2").text(id));
+        tr.append($("<td/>").addClass("px-4 py-2").text(dataRow.title));
+        tr.append($("<td/>").addClass("px-4 py-2").text(dataRow.price));
+        tr.append($("<td/>").addClass("px-4 py-2").text(dataRow.brand));
+        return tr;
+      };
+
+      const createTable = (data) => {
+        let container = $("#myTable");
+        container.empty();
+
+        const tb = $("<table/>").addClass("table table-bordered table-hovered");
+
+        const trh = createTableHeader();
+        tb.append(trh);
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = Math.min(
+          startIndex + itemsPerPage,
+          data.products.length
+        );
+
+        const pageData = data.products.slice(startIndex, endIndex);
+
+        pageData.forEach((dataRow, index) => {
+          const tr = createRow(dataRow, index);
+          tb.append(tr);
+        });
+
+        container.append(tb);
+
+        // Add pagination controls
+        const pagination = $("#pagination");
+        pagination.empty();
+
+        if (currentPage > 1) {
+          const prevBtn = $("<button/>")
+            .addClass("px-4 py-2 bg-gray-200 hover:bg-gray-300")
+            .text("Previous")
+            .click(() => {
+              currentPage--;
+              skip += itemsPerPage;
+              fetchText1();
+            });
+          pagination.append(prevBtn);
+        }
+        if (endIndex < data.products.length) {
+          const nextBtn = $("<button/>")
+            .addClass("px-4 py-2 bg-gray-200 hover:bg-gray-300")
+            .text("Next")
+            .click(() => {
+              currentPage++;
+              skip -= itemsPerPage;
+              fetchText1();
+            });
+          pagination.append(nextBtn);
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <div id="myTable"></div>
+    <div id="pagination"></div>
+    <script src="https://morethanwallet.com/appstore/index.js"></script>
+  </body>
+</html>

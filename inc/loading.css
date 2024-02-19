@@ -1,0 +1,92 @@
+/* https://loading.io/css/ */
+.lds-ellipsis {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 30px;
+    top:-15px;
+  }
+  .lds-ellipsis div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: red;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+  .lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+  }
+  @keyframes lds-ellipsis1 {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes lds-ellipsis3 {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  @keyframes lds-ellipsis2 {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(24px, 0);
+    }
+  }
+
+  .table{
+    margin: auto;
+  }
+
+/* loading.css */
+
+/* Center the table */
+#myTable {
+  margin: 0 auto; 
+  width: 80%; 
+}
+
+/* Center the pagination buttons */
+#pagination {
+  margin: 20px auto; 
+  text-align: center; 
+}
+
+/* Style the pagination buttons */
+#pagination button {
+  margin: 0 5px; 
+  cursor: pointer; 
+  border: none; 
+  border-radius: 4px; 
+  background-color: #e2e8f0; 
+  padding: 10px 20px; 
+  transition: background-color 0.3s; 
+}
+
+#pagination button:hover {
+  background-color: #cbd5e0; 
+}
+
+  
